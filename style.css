@@ -122,3 +122,10 @@ body {
     --toggle-active: #ff1493;
     --connection-color: #ff69b4;
 }
+/* Add to existing CSS */
+#speed-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--text-color);
+    font-family: monospace;
+}
