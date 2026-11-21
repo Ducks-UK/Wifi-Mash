@@ -3,27 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WiFi Speed Controller</title>
+    <title>Ultimate WiFi Controller</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-wifi"></i> WiFi Speed Controller</h1>
-            <p>Control your WiFi speed with precision</p>
+            <h1><i class="fas fa-wifi"></i> Ultimate WiFi Controller</h1>
+            <div class="wifi-icon" id="wifi-icon">
+                <i class="fas fa-wifi"></i>
+            </div>
         </header>
 
         <div class="theme-selector">
-            <button class="theme-btn light" data-theme="light"><i class="fas fa-sun"></i></button>
+            <button class="theme-btn light active" data-theme="light"><i class="fas fa-sun"></i></button>
             <button class="theme-btn dark" data-theme="dark"><i class="fas fa-moon"></i></button>
             <button class="theme-btn cat" data-theme="cat"><i class="fas fa-cat"></i></button>
         </div>
 
         <div class="wifi-control">
+            <div class="speed-ometer">
+                <div class="speed-meter">
+                    <div class="meter-background"></div>
+                    <div class="meter-needle" id="meter-needle"></div>
+                    <div class="speed-values">
+                        <span>0</span>
+                        <span>50</span>
+                        <span>100</span>
+                        <span>150</span>
+                        <span>200</span>
+                    </div>
+                </div>
+                <div class="speed-display">
+                    <span id="current-speed">0</span>
+                    <span>Mbps</span>
+                </div>
+            </div>
+
+            <div class="wifi-stats">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-upload"></i></div>
+                    <div class="stat-value" id="upload-speed">0</div>
+                    <div class="stat-label">Upload</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-download"></i></div>
+                    <div class="stat-value" id="download-speed">0</div>
+                    <div class="stat-label">Download</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-network-wired"></i></div>
+                    <div class="stat-value" id="ping">0</div>
+                    <div class="stat-label">Ping</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-value" id="data-used">0</div>
+                    <div class="stat-label">Data Used</div>
+                </div>
+            </div>
+
             <div class="slider-container">
                 <div class="slider-label">
-                    <span>WiFi Speed</span>
+                    <span>WiFi Control</span>
                     <span class="danger-zone">DANGER ZONE</span>
                 </div>
                 <input type="range" id="wifi-speed" min="0" max="100" value="50" class="slider">
@@ -34,25 +77,6 @@
                 </div>
             </div>
 
-            <div class="stats-display">
-                <div class="stat-item">
-                    <span class="stat-label">Current Speed:</span>
-                    <span class="stat-value" id="current-speed">50 Mbps</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Data Used:</span>
-                    <span class="stat-value" id="data-used">0 MB</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Latency:</span>
-                    <span class="stat-value" id="latency">20ms</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Status:</span>
-                    <span class="stat-value status" id="status">Optimal</span>
-                </div>
-            </div>
-
             <div class="toggle-container">
                 <label class="switch">
                     <input type="checkbox" id="wifi-power" checked>
@@ -60,16 +84,22 @@
                     <span class="toggle-label">WiFi Power</span>
                 </label>
             </div>
-        </div>
 
-        <div class="useless-button-container">
-            <button class="useless-btn" id="useless-btn">
+            <button class="real-btn" id="useless-btn">
                 <i class="fas fa-magic"></i> Click Me!
             </button>
         </div>
 
         <div class="footer">
             <p>Thanks to <a href="https://www.youtube.com/@Ducks_UK" target="_blank">Ducks_UK</a> for the inspiration!</p>
+        </div>
+    </div>
+
+    <div class="modal" id="useless-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Warning</h2>
+            <p id="modal-message">This button does nothing and never will.</p>
         </div>
     </div>
 
