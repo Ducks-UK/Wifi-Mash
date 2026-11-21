@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Resource Monitor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>System Resource Monitor</h1>
+
+        <div class="theme-selector">
+            <button class="theme-btn" data-theme="light">Light</button>
+            <button class="theme-btn" data-theme="dark">Dark</button>
+            <button class="theme-btn" data-theme="cat">Cat</button>
+        </div>
+
+        <div class="slider-group">
+            <div class="slider-item">
+                <label for="cpu">CPU Usage</label>
+                <input type="range" id="cpu" min="0" max="100" value="30" class="slider">
+                <span class="value">30%</span>
+            </div>
+
+            <div class="slider-item">
+                <label for="ram">RAM Usage</label>
+                <input type="range" id="ram" min="0" max="100" value="50" class="slider">
+                <span class="value">50%</span>
+            </div>
+
+            <div class="slider-item">
+                <label for="wifi">WiFi Strength</label>
+                <input type="range" id="wifi" min="0" max="100" value="70" class="slider">
+                <span class="value">70%</span>
+            </div>
+        </div>
+
+        <div class="toggle-group">
+            <div class="toggle-item">
+                <label for="pc-power">PC Power</label>
+                <label class="switch">
+                    <input type="checkbox" id="pc-power">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="toggle-item">
+                <label for="wifi-power">WiFi Power</label>
+                <label class="switch">
+                    <input type="checkbox" id="wifi-power" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="easter-egg" id="easter-egg"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
