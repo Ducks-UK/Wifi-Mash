@@ -5,6 +5,7 @@
     --slider-active: #4CAF50;
     --toggle-bg: #ccc;
     --toggle-active: #2196F3;
+    --connection-color: #4CAF50;
 }
 
 body {
@@ -12,10 +13,11 @@ body {
     margin: 0;
     padding: 20px;
     transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
 }
 
 .container {
-    max-width: 500px;
+    max-width: 400px;
     margin: 0 auto;
     text-align: center;
 }
@@ -33,12 +35,12 @@ body {
     background: var(--toggle-bg);
 }
 
-.slider-group, .toggle-group {
-    margin: 20px 0;
+.wifi-control {
+    margin: 30px 0;
 }
 
 .slider-item, .toggle-item {
-    margin: 15px 0;
+    margin: 20px 0;
     text-align: left;
 }
 
@@ -81,6 +83,24 @@ body {
     border-radius: 50%;
 }
 
+.connection-status {
+    margin-top: 30px;
+}
+
+.status-indicator {
+    width: 20px;
+    height: 20px;
+    background-color: var(--connection-color);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+#connection-text {
+    vertical-align: middle;
+}
+
 /* Dark Theme */
 .dark {
     --bg-color: #222;
@@ -89,6 +109,7 @@ body {
     --slider-active: #8BC34A;
     --toggle-bg: #555;
     --toggle-active: #03A9F4;
+    --connection-color: #8BC34A;
 }
 
 /* Cat Theme */
@@ -99,16 +120,5 @@ body {
     --slider-active: #ff69b4;
     --toggle-bg: #d8bfd8;
     --toggle-active: #ff1493;
-}
-
-.value {
-    display: inline-block;
-    min-width: 40px;
-    text-align: right;
-}
-
-.easter-egg {
-    margin-top: 30px;
-    font-size: 18px;
-    min-height: 24px;
+    --connection-color: #ff69b4;
 }
