@@ -8,39 +8,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Slider updates
-    const sliders = document.querySelectorAll('.slider');
-    sliders.forEach(slider => {
-        const valueSpan = slider.nextElementSibling;
-        slider.addEventListener('input', () => {
-            valueSpan.textContent = `${slider.value}%`;
-        });
+    // WiFi slider
+    const wifiSlider = document.getElementById('wifi-strength');
+    const wifiValue = wifiSlider.nextElementSibling;
+    wifiSlider.addEventListener('input', () => {
+        wifiValue.textContent = `${wifiSlider.value}%`;
+        updateConnectionStatus();
     });
 
-    // Easter eggs
-    const easterEgg = document.getElementById('easter-egg');
-    let clickCount = 0;
-    const secretClicks = ['kitten', 'meow', 'purr', 'cat', 'whiskers'];
+    // WiFi toggle
+    const wifiToggle = document.getElementById('wifi-power');
+    wifiToggle.addEventListener('change', updateConnectionStatus);
 
+    // Connection status update
+    function updateConnectionStatus() {
+        const statusIndicator = document.getElementById('status-indicator');
+        const connectionText = document.getElementById('connection-text');
+
+        if (wifiToggle.checked && wifiSlider.value > 0) {
+            statusIndicator.style.backgroundColor = getComputedStyle(document.documentElement)
+                .getPropertyValue('--connection-color');
+            connectionText.textContent = 'Connected';
+        } else {
+            statusIndicator.style.backgroundColor = '#f44336';
+            connectionText.textContent = 'Disconnected';
+        }
+    }
+
+    // Initialize status
+    updateConnectionStatus();
+
+    // Fun easter egg
+    let clickCount = 0;
     document.addEventListener('click', (e) => {
         if (e.target.tagName === 'BODY') {
             clickCount++;
             if (clickCount >= 5) {
-                easterEgg.textContent = secretClicks[Math.floor(Math.random() * secretClicks.length)];
+                alert('Meow! You found the secret!');
                 clickCount = 0;
-                setTimeout(() => easterEgg.textContent = '', 2000);
             }
         }
     });
-
-    // Fun animation
-    setInterval(() => {
-        if (Math.random() < 0.1) {
-            const catEyes = document.querySelectorAll('.cat .slider::-webkit-slider-thumb');
-            catEyes.forEach(eye => {
-                eye.style.transform = 'scale(1.2)';
-                setTimeout(() => eye.style.transform = 'scale(1)', 300);
-            });
-        }
-    }, 1000);
 });
