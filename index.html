@@ -3,39 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real WiFi Resource Consumer</title>
+    <title>WiFi Speed Controller</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Real WiFi Resource Consumer</h1>
+        <header>
+            <h1><i class="fas fa-wifi"></i> WiFi Speed Controller</h1>
+            <p>Control your WiFi speed with precision</p>
+        </header>
 
         <div class="theme-selector">
-            <button class="theme-btn" data-theme="light">Light</button>
-            <button class="theme-btn" data-theme="dark">Dark</button>
-            <button class="theme-btn" data-theme="cat">Cat</button>
+            <button class="theme-btn light" data-theme="light"><i class="fas fa-sun"></i></button>
+            <button class="theme-btn dark" data-theme="dark"><i class="fas fa-moon"></i></button>
+            <button class="theme-btn cat" data-theme="cat"><i class="fas fa-cat"></i></button>
         </div>
 
         <div class="wifi-control">
-            <div class="slider-item">
-                <label for="wifi-strength">WiFi Usage</label>
-                <input type="range" id="wifi-strength" min="0" max="100" value="10" class="slider">
-                <span class="value">10%</span>
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>WiFi Speed</span>
+                    <span class="danger-zone">DANGER ZONE</span>
+                </div>
+                <input type="range" id="wifi-speed" min="0" max="100" value="50" class="slider">
+                <div class="slider-values">
+                    <span>0%</span>
+                    <span>50%</span>
+                    <span>100%</span>
+                </div>
             </div>
 
-            <div class="toggle-item">
-                <label for="wifi-power">WiFi Power</label>
+            <div class="stats-display">
+                <div class="stat-item">
+                    <span class="stat-label">Current Speed:</span>
+                    <span class="stat-value" id="current-speed">50 Mbps</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Data Used:</span>
+                    <span class="stat-value" id="data-used">0 MB</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Latency:</span>
+                    <span class="stat-value" id="latency">20ms</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Status:</span>
+                    <span class="stat-value status" id="status">Optimal</span>
+                </div>
+            </div>
+
+            <div class="toggle-container">
                 <label class="switch">
                     <input type="checkbox" id="wifi-power" checked>
                     <span class="slider round"></span>
+                    <span class="toggle-label">WiFi Power</span>
                 </label>
             </div>
+        </div>
 
-            <div class="connection-info">
-                <div class="status-indicator" id="status-indicator"></div>
-                <span id="connection-text">Idle</span>
-                <div id="speed-text">Data used: 0 KB</div>
-            </div>
+        <div class="useless-button-container">
+            <button class="useless-btn" id="useless-btn">
+                <i class="fas fa-magic"></i> Click Me!
+            </button>
+        </div>
+
+        <div class="footer">
+            <p>Thanks to <a href="https://www.youtube.com/@Ducks_UK" target="_blank">Ducks_UK</a> for the inspiration!</p>
         </div>
     </div>
 
