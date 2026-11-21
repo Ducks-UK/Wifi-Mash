@@ -10,7 +10,6 @@
     <div class="container">
         <header>
             <h1>WiFi Resource Controller</h1>
-            <button id="theme-toggle" class="theme-button">🌓</button>
         </header>
 
         <main>
@@ -44,36 +43,23 @@
                         <p>Upload: 0.0 Mbps</p>
                         <p>Download: 0.0 Mbps</p>
                         <p>Ping: 50 ms</p>
+                        <p>Data used: 0.00 MB</p>
                     </div>
                 </div>
 
                 <div class="card speedometer">
                     <h2>Speedometer</h2>
                     <div class="speedometer-container">
-                        <div class="speedometer-dial">
-                            <div class="speedometer-needle"></div>
-                        </div>
+                        <canvas id="speedometer-canvas" width="200" height="100"></canvas>
                         <div class="speedometer-value" id="speedometer-value">0%</div>
                     </div>
                 </div>
-            </div>
-
-            <div class="footer-actions">
-                <button id="useless-button" class="useless-button">Useless Button</button>
             </div>
         </main>
 
         <footer>
             <p>Thanks to <a href="https://www.youtube.com/@Ducks_UK" target="_blank">Ducks_UK</a> for inspiration</p>
         </footer>
-    </div>
-
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span id="close-modal" class="close">&times;</span>
-            <p id="modal-message"></p>
-        </div>
     </div>
 
     <script src="script.js"></script>
