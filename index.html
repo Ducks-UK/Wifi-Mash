@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WiFi Control Panel</title>
+    <title>Real WiFi Resource Consumer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>WiFi Control</h1>
+        <h1>Real WiFi Resource Consumer</h1>
 
         <div class="theme-selector">
             <button class="theme-btn" data-theme="light">Light</button>
@@ -18,9 +18,9 @@
 
         <div class="wifi-control">
             <div class="slider-item">
-                <label for="wifi-strength">WiFi Strength</label>
-                <input type="range" id="wifi-strength" min="0" max="100" value="70" class="slider">
-                <span class="value">70%</span>
+                <label for="wifi-strength">WiFi Usage</label>
+                <input type="range" id="wifi-strength" min="0" max="100" value="10" class="slider">
+                <span class="value">10%</span>
             </div>
 
             <div class="toggle-item">
@@ -30,11 +30,12 @@
                     <span class="slider round"></span>
                 </label>
             </div>
-        </div>
 
-        <div class="connection-status">
-            <div class="status-indicator" id="status-indicator"></div>
-            <span id="connection-text">Connected</span>
+            <div class="connection-info">
+                <div class="status-indicator" id="status-indicator"></div>
+                <span id="connection-text">Idle</span>
+                <div id="speed-text">Data used: 0 KB</div>
+            </div>
         </div>
     </div>
 
