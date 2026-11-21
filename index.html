@@ -3,102 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate WiFi Controller</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <title>WiFi Resource Controller</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-wifi pulse-icon" id="wifi-icon"></i> Ultimate WiFi Controller</h1>
+            <h1>WiFi Resource Controller</h1>
+            <button id="theme-toggle" class="theme-button">🌓</button>
         </header>
 
-        <div class="theme-selector">
-            <button class="theme-btn light active" data-theme="light"><i class="fas fa-sun"></i></button>
-            <button class="theme-btn dark" data-theme="dark"><i class="fas fa-moon"></i></button>
-            <button class="theme-btn cat" data-theme="cat"><i class="fas fa-cat"></i></button>
-        </div>
+        <main>
+            <div class="controls">
+                <div class="card power-control">
+                    <h2>Power</h2>
+                    <button id="power-toggle" class="power-button">⏻</button>
+                </div>
 
-        <div class="wifi-control">
-            <div class="speed-ometer">
-                <div class="speed-meter">
-                    <div class="meter-background">
-                        <div class="meter-gradient"></div>
-                        <div class="meter-needle" id="meter-needle"></div>
-                    </div>
-                    <div class="speed-values">
-                        <span>0</span>
-                        <span>50</span>
-                        <span>100</span>
-                        <span>150</span>
-                        <span>200</span>
+                <div class="card speed-control">
+                    <h2>Speed</h2>
+                    <div class="slider-container">
+                        <input type="range" id="speed-slider" min="0" max="100" value="0">
+                        <div class="slider-labels">
+                            <span>0%</span>
+                            <span>100%</span>
+                        </div>
                     </div>
                 </div>
-                <div class="speed-display">
-                    <span id="current-speed">0</span>
-                    <span>Mbps</span>
+
+                <div class="card danger-zone" id="danger-zone">
+                    <h2>Danger Zone</h2>
+                    <p>0-20% speed triggers warnings</p>
                 </div>
             </div>
 
-            <div class="wifi-stats">
-                <div class="stat-card lift-on-hover">
-                    <div class="stat-icon"><i class="fas fa-upload"></i></div>
-                    <div class="stat-value" id="upload-speed">0</div>
-                    <div class="stat-label">Upload</div>
+            <div class="stats">
+                <div class="card">
+                    <h2>Network Stats</h2>
+                    <div id="stats-display">
+                        <p>Upload: 0.0 Mbps</p>
+                        <p>Download: 0.0 Mbps</p>
+                        <p>Ping: 50 ms</p>
+                    </div>
                 </div>
-                <div class="stat-card lift-on-hover">
-                    <div class="stat-icon"><i class="fas fa-download"></i></div>
-                    <div class="stat-value" id="download-speed">0</div>
-                    <div class="stat-label">Download</div>
-                </div>
-                <div class="stat-card lift-on-hover">
-                    <div class="stat-icon"><i class="fas fa-network-wired"></i></div>
-                    <div class="stat-value" id="ping">0</div>
-                    <div class="stat-label">Ping</div>
-                </div>
-                <div class="stat-card lift-on-hover">
-                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                    <div class="stat-value" id="data-used">0</div>
-                    <div class="stat-label">Data Used</div>
+
+                <div class="card speedometer">
+                    <h2>Speedometer</h2>
+                    <div class="speedometer-container">
+                        <div class="speedometer-dial">
+                            <div class="speedometer-needle"></div>
+                        </div>
+                        <div class="speedometer-value" id="speedometer-value">0%</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="slider-container">
-                <div class="slider-label">
-                    <span>WiFi Control</span>
-                    <span class="danger-zone pulse-danger">DANGER ZONE</span>
-                </div>
-                <input type="range" id="wifi-speed" min="0" max="100" value="50" class="slider">
-                <div class="slider-values">
-                    <span>0%</span>
-                    <span>50%</span>
-                    <span>100%</span>
-                </div>
+            <div class="footer-actions">
+                <button id="useless-button" class="useless-button">Useless Button</button>
             </div>
+        </main>
 
-            <div class="toggle-container">
-                <label class="switch">
-                    <input type="checkbox" id="wifi-power" checked>
-                    <span class="slider round"></span>
-                    <span class="toggle-label">WiFi Power</span>
-                </label>
-            </div>
-
-            <button class="real-btn ripple-effect" id="useless-btn">
-                <i class="fas fa-magic"></i> Click Me!
-            </button>
-        </div>
-
-        <div class="footer">
-            <p>Thanks to <a href="https://www.youtube.com/@Ducks_UK" target="_blank">Ducks_UK</a> for the inspiration!</p>
-        </div>
+        <footer>
+            <p>Thanks to <a href="https://www.youtube.com/@Ducks_UK" target="_blank">Ducks_UK</a> for inspiration</p>
+        </footer>
     </div>
 
-    <div class="modal" id="useless-modal">
-        <div class="modal-content lift-on-hover">
-            <span class="close-btn ripple-effect">&times;</span>
-            <h2 id="modal-title">Warning</h2>
-            <p id="modal-message">This button does nothing and never will.</p>
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <p id="modal-message"></p>
         </div>
     </div>
 
