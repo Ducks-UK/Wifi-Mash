@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', function() {
     // Theme management
     const themeToggle = document.getElementById('theme-toggle');
@@ -61,8 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('modal');
     const modalMessage = document.getElementById('modal-message');
     const closeModal = document.getElementById('close-modal');
-    const dataUsageCounter = document.getElementById('data-usage');
-    const pingDisplay = document.getElementById('ping-value');
+    const dataUsageCounter = document.createElement('p');
+    const pingDisplay = document.createElement('p');
+
+    // Add data usage and ping to stats display
+    statsDisplay.appendChild(dataUsageCounter);
+    statsDisplay.appendChild(pingDisplay);
 
     // Useless button messages
     const uselessMessages = [
@@ -153,12 +156,12 @@ document.addEventListener('DOMContentLoaded', function() {
         function animate() {
             // Simulate data usage
             dataUsage += currentSpeed * 0.1;
-            dataUsageCounter.textContent = `${dataUsage.toFixed(2)} MB`;
+            dataUsageCounter.textContent = `Data used: ${dataUsage.toFixed(2)} MB`;
 
             // Simulate ping increase in danger zone
             if (currentSpeed <= 20) {
                 ping += 0.5;
-                pingDisplay.textContent = `${ping.toFixed(0)} ms`;
+                pingDisplay.textContent = `Ping: ${ping.toFixed(0)} ms`;
             }
 
             animationId = requestAnimationFrame(animate);
@@ -191,17 +194,21 @@ document.addEventListener('DOMContentLoaded', function() {
             <p>Upload: ${uploadSpeed.toFixed(1)} Mbps</p>
             <p>Download: ${downloadSpeed.toFixed(1)} Mbps</p>
         `;
+        statsDisplay.appendChild(dataUsageCounter);
+        statsDisplay.appendChild(pingDisplay);
     }
 
     function pulseWiFiIcon() {
-        const wifiIcon = document.querySelector('.wifi-icon');
-        if (wifiIcon) {
-            setInterval(() => {
-                wifiIcon.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    wifiIcon.style.transform = 'scale(1)';
-                }, 500);
-            }, 2000);
-        }
+        const wifiIcon = document.createElement('span');
+        wifiIcon.className = 'wifi-icon';
+        wifiIcon.textContent = '📶';
+        themeToggle.parentNode.insertBefore(wifiIcon, themeToggle.nextSibling);
+
+        setInterval(() => {
+            wifiIcon.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                wifiIcon.style.transform = 'scale(1)';
+            }, 500);
+        }, 2000);
     }
 });
