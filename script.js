@@ -3,99 +3,186 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeBtns = document.querySelectorAll('.theme-btn');
     themeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+            themeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
             document.body.className = '';
             document.body.classList.add(btn.dataset.theme);
         });
     });
 
-    // WiFi slider
-    const wifiSlider = document.getElementById('wifi-strength');
-    const wifiValue = wifiSlider.nextElementSibling;
-    let dataUsed = 0;
-    let intervalId = null;
-    let isConsuming = false;
+    // Initialize active theme button
+    themeBtns[0].classList.add('active');
 
-    wifiSlider.addEventListener('input', () => {
-        wifiValue.textContent = `${wifiSlider.value}%`;
-        updateConnectionStatus();
+    // WiFi slider
+    const wifiSlider = document.getElementById('wifi-speed');
+    const currentSpeed = document.getElementById('current-speed');
+    const dataUsed = document.getElementById('data-used');
+    const latency = document.getElementById('latency');
+    const status = document.getElementById('status');
+    let totalData = 0;
+    let animationFrameId = null;
+    let lastUpdateTime = 0;
+
+    // Useless button
+    const uselessBtn = document.getElementById('useless-btn');
+    uselessBtn.addEventListener('click', () => {
+        alert("This button does nothing and never will. It's just for show!");
     });
 
     // WiFi toggle
     const wifiToggle = document.getElementById('wifi-power');
-    wifiToggle.addEventListener('change', () => {
-        updateConnectionStatus();
-    });
+    wifiToggle.addEventListener('change', updateStatus);
 
-    // Connection status and real data consumption
-    function updateConnectionStatus() {
-        const statusIndicator = document.getElementById('status-indicator');
-        const connectionText = document.getElementById('connection-text');
-        const speedText = document.getElementById('speed-text');
+    // Main update function
+    function updateStatus() {
+        const powerOn = wifiToggle.checked;
+        const speedValue = powerOn ? wifiSlider.value : 0;
 
-        if (wifiToggle.checked && wifiSlider.value > 0) {
-            statusIndicator.style.backgroundColor = getComputedStyle(document.documentElement)
-                .getPropertyValue('--connection-color');
-            connectionText.textContent = 'Consuming data';
+        // Update speed display
+        currentSpeed.textContent = `${speedValue} Mbps`;
 
-            // Start consuming data if not already
-            if (!isConsuming) {
-                startDataConsumption();
-            }
+        // Update status
+        if (!powerOn) {
+            status.textContent = "Off";
+            status.className = "status danger";
+            return;
+        }
+
+        if (speedValue < 20) {
+            status.textContent = "Extreme Lag";
+            status.className = "status danger";
+        } else if (speedValue < 40) {
+            status.textContent = "High Latency";
+            status.className = "status warning";
+        } else if (speedValue < 60) {
+            status.textContent = "Optimal";
+            status.className = "status optimal";
+        } else if (speedValue < 80) {
+            status.textContent = "Good";
+            status.className = "status optimal";
         } else {
-            statusIndicator.style.backgroundColor = '#f44336';
-            connectionText.textContent = 'Idle';
-            connectionText.style.color = 'var(--text-color)';
+            status.textContent = "Excellent";
+            status.className = "status optimal";
+        }
 
-            // Stop consuming data
-            if (isConsuming) {
-                clearInterval(intervalId);
-                isConsuming = false;
-            }
+        // Update latency based on speed
+        const calculatedLatency = Math.max(10, 100 - speedValue * 1.5);
+        latency.textContent = `${Math.round(calculatedLatency)}ms`;
+
+        // Start/stop data consumption
+        if (speedValue > 0) {
+            startDataConsumption(speedValue);
+        } else {
+            stopDataConsumption();
         }
     }
 
-    // Function to consume real network data
-    function startDataConsumption() {
-        isConsuming = true;
-        const chunkSize = 1024 * 100; // 100KB chunks
-        const delay = 1000 / (wifiSlider.value / 10); // Faster when slider is lower
+    // Data consumption simulation
+    function startDataConsumption(speed) {
+        stopDataConsumption(); // Stop any existing consumption
 
-        intervalId = setInterval(() => {
-            // Create a large blob of data
-            const data = new Blob([new Array(chunkSize).join('x')]);
-            const url = URL.createObjectURL(data);
+        const updateDataUsage = (timestamp) => {
+            if (!lastUpdateTime) {
+                lastUpdateTime = timestamp;
+            }
 
-            // Make a fetch request to consume bandwidth
-            fetch(url, {
-                method: 'GET',
-                cache: 'no-store'
-            })
-            .then(() => {
-                dataUsed += chunkSize / 1024; // Convert to KB
-                document.getElementById('speed-text').textContent = `Data used: ${Math.round(dataUsed)} KB`;
-                URL.revokeObjectURL(url);
-            })
-            .catch(() => {
-                // In case of error, just continue
-                URL.revokeObjectURL(url);
-            });
-        }, delay);
+            const deltaTime = timestamp - lastUpdateTime;
+            lastUpdateTime = timestamp;
+
+            // Calculate data usage based on speed (simulated)
+            const dataPerSecond = speed * 0.1; // 0.1 MB per Mbps per second
+            totalData += dataPerSecond * (deltaTime / 1000);
+            dataUsed.textContent = `${totalData.toFixed(2)} MB`;
+
+            // Continue the animation loop
+            animationFrameId = requestAnimationFrame(updateDataUsage);
+        };
+
+        animationFrameId = requestAnimationFrame(updateDataUsage);
     }
 
-    // Initialize status
-    updateConnectionStatus();
-
-    // Fun easter egg
-    let clickCount = 0;
-    document.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BODY') {
-            clickCount++;
-            if (clickCount >= 5) {
-                alert(`Meow! You found the secret!\n\nTotal data consumed: ${Math.round(dataUsed)} KB\n\nResetting...`);
-                dataUsed = 0;
-                document.getElementById('speed-text').textContent = 'Data used: 0 KB';
-                clickCount = 0;
-            }
+    function stopDataConsumption() {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
         }
+        lastUpdateTime = 0;
+    }
+
+    // Initialize
+    updateStatus();
+
+    // Slider event listener
+    wifiSlider.addEventListener('input', updateStatus);
+
+    // Simulate tab slowdown when in danger zone
+    function simulateTabSlowdown() {
+        const dangerZone = document.querySelector('.danger-zone');
+        const dangerThreshold = 20;
+
+        if (wifiSlider.value < dangerThreshold && wifiToggle.checked) {
+            // Create overlay effect
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+            overlay.style.zIndex = '9999';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.transition = 'background-color 0.1s linear';
+
+            document.body.appendChild(overlay);
+
+            // Remove overlay when slider moves out of danger zone
+            const removeOverlay = () => {
+                if (wifiSlider.value >= dangerThreshold || !wifiToggle.checked) {
+                    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+                    setTimeout(() => {
+                        document.body.removeChild(overlay);
+                    }, 200);
+                }
+            };
+
+            // Check periodically
+            const checkInterval = setInterval(removeOverlay, 100);
+
+            // Clean up when slider changes
+            const cleanup = () => {
+                clearInterval(checkInterval);
+                if (overlay.parentNode) {
+                    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0)';
+                    setTimeout(() => {
+                        document.body.removeChild(overlay);
+                    }, 200);
+                }
+            };
+
+            wifiSlider.addEventListener('input', cleanup, { once: true });
+            wifiToggle.addEventListener('change', cleanup, { once: true });
+        }
+    }
+
+    // Add danger zone visual indicator
+    const dangerZone = document.querySelector('.danger-zone');
+    wifiSlider.addEventListener('input', () => {
+        if (wifiSlider.value < 20) {
+            dangerZone.style.animation = 'pulse 1s infinite';
+        } else {
+            dangerZone.style.animation = 'none';
+        }
+        simulateTabSlowdown();
     });
+
+    // Add CSS for pulse animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    `;
+    document.head.appendChild(style);
 });
